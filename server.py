@@ -12,11 +12,15 @@ from http_mcp.tools import register_tools
 configure_logging()
 logger = logging.getLogger("http-mcp-server")
 
-mcp = FastMCP("CL HTTP MCP Server")
+mcp = FastMCP(
+    "MewCP HTTP MCP Server",
+    # stateless_http=True,
+)
 register_tools(mcp)
 
 # Expose ASGI app for hosting platform's (e.g. Vercel) Python runtime.
-app = mcp.http_app(path="/mcp", transport="streamable-http")
+# Expose ASGI app for hosting platform's (e.g. Vercel) Python runtime.
+app = mcp.http_app(path="/mcp", transport="streamable-http", stateless_http=True)
 
 if __name__ == "__main__":
     logger.info("=" * 60)
