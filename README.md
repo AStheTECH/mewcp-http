@@ -6,7 +6,7 @@ A Model Context Protocol (MCP) server that exposes HTTP/HTTPS request execution 
 
 ## Overview
 
-The CL HTTP MCP Server provides stateless, auth-agnostic HTTP access:
+The HTTP MCP Server provides stateless, auth-agnostic HTTP access:
 
 - Multi-method request execution (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)
 - Flexible request shaping with headers, query params, and JSON/raw bodies
