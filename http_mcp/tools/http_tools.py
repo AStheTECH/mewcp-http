@@ -9,8 +9,6 @@ from .. import service
 from ..config import DEFAULT_TIMEOUT_SECONDS, MAX_RESPONSE_BODY_CHARS
 from ..logging_utils import ToolLogger
 from ..schemas import (
-    HttpCheckData,
-    HttpCheckResult,
     HttpRequestResult,
     HttpRequestResultData,
 )
@@ -20,24 +18,6 @@ logger = logging.getLogger("http-mcp.tools.http")
 
 
 def register_http_tools(mcp: FastMCP) -> None:
-
-    @mcp.tool(
-        name="health_check",
-        description="Check server readiness. Returns status and server name if the server is up.",
-        annotations=ToolAnnotations(
-            readOnlyHint=True,
-            destructiveHint=False,
-            openWorldHint=False,
-        ),
-    )
-    def health_check() -> HttpCheckResult:
-        tlog = ToolLogger(logger, "health_check")
-        tlog.success()
-        return HttpCheckResult(
-            success=True,
-            statusCode=200,
-            data=HttpCheckData(status="ok", server="CL HTTP MCP Server"),
-        )
 
     @mcp.tool(
         name="http_request",

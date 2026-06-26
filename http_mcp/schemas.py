@@ -25,22 +25,6 @@ class ToolResult(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# health_check tool
-# ---------------------------------------------------------------------------
-
-
-class HttpCheckData(BaseModel):
-    model_config = ConfigDict(extra="allow")
-
-    status: str
-    server: str
-
-
-class HttpCheckResult(ToolResult):
-    data: HttpCheckData | None = None
-
-
-# ---------------------------------------------------------------------------
 # http_request tool
 # ---------------------------------------------------------------------------
 

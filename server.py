@@ -21,12 +21,14 @@ register_tools(mcp)
 # /health MUST come before mcp.http_app() — routes are baked at http_app() time
 @mcp.custom_route("/health", methods=["GET"])
 async def health_check(request):
-    return JSONResponse({
-        "status": "healthy",
-        "service": mcp.name,
-        "version": SERVER_VERSION,
-        "breaking_changes": BREAKING_CHANGES,
-    })
+    return JSONResponse(
+        {
+            "status": "healthy",
+            "service": mcp.name,
+            "version": SERVER_VERSION,
+            "breaking_changes": BREAKING_CHANGES,
+        }
+    )
 
 
 app = mcp.http_app(path="/mcp", transport="streamable-http", stateless_http=True)
