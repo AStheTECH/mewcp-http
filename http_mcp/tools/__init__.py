@@ -1,0 +1,1 @@
+"""MewCP HTTP tool registration."""
