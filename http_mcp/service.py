@@ -1,3 +1,5 @@
+"""Upstream HTTP client for MewCP HTTP MCP Server."""
+
 import base64
 from typing import Any
 
@@ -8,7 +10,6 @@ from .config import (
     DEFAULT_TIMEOUT_SECONDS,
     MAX_RESPONSE_BODY_CHARS,
 )
-from .schemas import HTTPResponseData
 
 
 def _serialize_headers(headers: dict[str, Any] | None) -> dict[str, str]:
@@ -71,7 +72,7 @@ def execute_http_request(
     timeout_seconds: float = DEFAULT_TIMEOUT_SECONDS,
     follow_redirects: bool = True,
     max_response_chars: int = MAX_RESPONSE_BODY_CHARS,
-) -> HTTPResponseData:
+) -> dict[str, Any]:
     normalized_method = method.upper().strip()
 
     if normalized_method not in ALLOWED_HTTP_METHODS:
@@ -93,21 +94,18 @@ def execute_http_request(
 
     request_headers = _serialize_headers(headers)
 
-    try:
-        with httpx.Client(
-            follow_redirects=follow_redirects,
-            timeout=timeout_seconds,
-        ) as client:
-            response = client.request(
-                method=normalized_method,
-                url=url,
-                headers=request_headers,
-                params=params,
-                json=json_body,
-                content=body,
-            )
-    except httpx.HTTPError as exc:
-        raise RuntimeError(f"HTTP request failed: {exc}") from exc
+    with httpx.Client(
+        follow_redirects=follow_redirects,
+        timeout=timeout_seconds,
+    ) as client:
+        response = client.request(
+            method=normalized_method,
+            url=url,
+            headers=request_headers,
+            params=params,
+            json=json_body,
+            content=body,
+        )
 
     return {
         "request": {
