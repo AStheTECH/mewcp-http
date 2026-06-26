@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict
 # Base classes — copy verbatim into every MewCP server
 # ---------------------------------------------------------------------------
 
+
 class ToolError(BaseModel):
     code: str
     message: str
@@ -27,6 +28,7 @@ class ToolResult(BaseModel):
 # health_check tool
 # ---------------------------------------------------------------------------
 
+
 class HttpCheckData(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -41,6 +43,7 @@ class HttpCheckResult(ToolResult):
 # ---------------------------------------------------------------------------
 # http_request tool
 # ---------------------------------------------------------------------------
+
 
 class HttpResponseBodyData(BaseModel):
     model_config = ConfigDict(extra="allow")

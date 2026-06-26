@@ -24,7 +24,8 @@ def _handle_request_exc(result_class, tlog, exc):
         return result_class(success=False, statusCode=504, retriable=False,
             error=ToolError(code="UPSTREAM_ERROR", message="Read timeout"))
     if isinstance(exc, httpx.HTTPStatusError):
-        tlog.failure("UPSTREAM_ERROR", str(exc))
+        status = exc.response.status_code
+        tlog.failure("UPSTREAM_ERROR", f"HTTP {status}")
         return result_class(success=False, statusCode=503, retriable=True,
             error=ToolError(code="UPSTREAM_ERROR", message=str(exc)))
     if isinstance(exc, httpx.HTTPError):

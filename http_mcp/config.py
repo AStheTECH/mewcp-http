@@ -8,6 +8,7 @@ BREAKING_CHANGES: list[dict] = []
 
 # Per-request timeout supplied by caller; this is the fallback default
 DEFAULT_TIMEOUT_SECONDS = 30.0
+CONNECT_TIMEOUT = 5  # TCP connection — fixed, API-independent
 MAX_RESPONSE_BODY_CHARS = 50000
 ALLOWED_HTTP_METHODS = {
     "GET",

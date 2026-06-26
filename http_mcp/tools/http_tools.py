@@ -23,7 +23,7 @@ def register_http_tools(mcp: FastMCP) -> None:
 
     @mcp.tool(
         name="health_check",
-        description="Check server readiness.",
+        description="Check server readiness. Returns status and server name if the server is up.",
         annotations=ToolAnnotations(
             readOnlyHint=True,
             destructiveHint=False,
@@ -57,28 +57,32 @@ def register_http_tools(mcp: FastMCP) -> None:
             ..., description="Target URL beginning with http:// or https://"
         ),
         headers: dict[str, str] | None = Field(
-            default=None, description="Optional HTTP headers"
+            default=None,
+            description="Optional HTTP headers as a dict of string key/value pairs. Omit to send no custom headers.",
         ),
         params: dict[str, Any] | None = Field(
-            default=None, description="Optional query parameters"
+            default=None,
+            description="Optional query parameters as a dict; appended to the URL as ?key=value pairs. Omit to send no query string.",
         ),
         json_body: Any | None = Field(
-            default=None, description="Optional JSON request body"
+            default=None,
+            description="Optional JSON request body (any JSON-serializable value). Mutually exclusive with `body`. Omit for requests with no body.",
         ),
         body: str | None = Field(
-            default=None, description="Optional raw string request body"
+            default=None,
+            description="Optional raw string request body. Mutually exclusive with `json_body`. Omit for requests with no body.",
         ),
         timeout_seconds: float = Field(
             default=DEFAULT_TIMEOUT_SECONDS,
-            description="HTTP timeout in seconds",
+            description=f"Read timeout in seconds for the HTTP request. Defaults to {DEFAULT_TIMEOUT_SECONDS}s if omitted. Increase for slow endpoints.",
         ),
         follow_redirects: bool = Field(
             default=True,
-            description="Whether to follow HTTP redirects",
+            description="Whether to follow HTTP 3xx redirects automatically. Defaults to true if omitted.",
         ),
         max_response_chars: int = Field(
             default=MAX_RESPONSE_BODY_CHARS,
-            description="Maximum response characters/bytes to return in the body field",
+            description=f"Maximum response body characters or bytes to return. Defaults to {MAX_RESPONSE_BODY_CHARS} if omitted. Increase to retrieve larger responses.",
         ),
     ) -> HttpRequestResult:
         tlog = ToolLogger(logger, "http_request")

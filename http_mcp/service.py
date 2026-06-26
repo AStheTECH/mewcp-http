@@ -7,6 +7,7 @@ import httpx
 
 from .config import (
     ALLOWED_HTTP_METHODS,
+    CONNECT_TIMEOUT,
     DEFAULT_TIMEOUT_SECONDS,
     MAX_RESPONSE_BODY_CHARS,
 )
@@ -96,7 +97,7 @@ def execute_http_request(
 
     with httpx.Client(
         follow_redirects=follow_redirects,
-        timeout=timeout_seconds,
+        timeout=httpx.Timeout(timeout_seconds, connect=CONNECT_TIMEOUT),
     ) as client:
         response = client.request(
             method=normalized_method,
